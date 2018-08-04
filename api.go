@@ -36,6 +36,20 @@ func (api CachetAPI) Ping() error {
 	return nil
 }
 
+// PingComponent send Ping for component
+func (api CachetAPI) PingComponent(componentId int) error {
+	resp, _, err := api.NewRequest("POST", "/components/"+strconv.Itoa(componentId)+"/ping", nil)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != 200 {
+		return errors.New("PingComponent " + strconv.Itoa(componentId) + " Responded with non-200 status code")
+	}
+
+	return nil
+}
+
 // SendMetric adds a data point to a cachet monitor
 func (api CachetAPI) SendMetric(id int, lag int64) {
 	logrus.Debugf("Sending lag metric ID:%d RTT %vms", id, lag)

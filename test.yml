@@ -1,0 +1,47 @@
+api:
+  # cachet url
+  url: http://localhost:8096/api/v1
+  # cachet api token
+  token: wje715pFBLLCrCjQCALE
+  insecure: false
+# https://golang.org/src/time/format.go#L57
+date_format: 02/01/2006 15:04:05 MST
+monitors:
+  # http monitor example
+  - name: google
+    # test url
+    target: https://google.com
+    # strict certificate checking for https
+    strict: true
+    # HTTP method
+    method: POST
+    
+    # set to update component (either component_id or metric_id are required)
+    component_id: 1
+    # set to post lag to cachet metric (graph)
+    metric_id: 1
+
+    # custom templates (see readme for details)
+    # leave empty for defaults
+    template:
+      investigating:
+        subject: "{{ .Monitor.Name }} - {{ .SystemName }}"
+        message: "{{ .Monitor.Name }} check **failed** (server time: {{ .now }})\n\n{{ .FailReason }}"
+      fixed:
+        subject: "I HAVE BEEN FIXED"
+    
+    # seconds between checks
+    interval: 10
+    # seconds for timeout
+    timeout: 5
+    # If % of downtime is over this threshold, open an incident
+    threshold: 80
+
+    # custom HTTP headers
+    headers:
+      Authorization: Basic <hash>
+    # expected status code (either status code or body must be supplied)
+    expected_status_code: 405
+    # regex to match body
+    # expected_body: "P.*NG"
+  # dns monitor example

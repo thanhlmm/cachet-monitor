@@ -11,8 +11,9 @@ import (
 	"strings"
 	"sync"
 
+	cachet "monitor"
+
 	"github.com/Sirupsen/logrus"
-	cachet "github.com/castawaylabs/cachet-monitor"
 	docopt "github.com/docopt/docopt-go"
 	"github.com/mitchellh/mapstructure"
 	"gopkg.in/yaml.v2"

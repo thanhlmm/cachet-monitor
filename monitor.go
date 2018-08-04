@@ -184,6 +184,12 @@ func (mon *AbstractMonitor) AnalyseData() {
 	})
 	if numDown == 0 {
 		l.Printf("monitor is up")
+
+		// Send message update that our service is up
+		if err := mon.config.API.PingComponent(mon.ComponentID); err != nil {
+			logrus.Errorf("Cannot ping component!\n%v", err)
+		}
+
 	} else if mon.ThresholdCount {
 		l.Printf("monitor down %d/%d", numDown, int(mon.Threshold))
 	} else {
